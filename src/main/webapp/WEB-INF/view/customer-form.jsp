@@ -8,6 +8,8 @@
 		
 		<div class="d-flex flex-column align-items-center py-5">
 			<form:form action="saveCustomer" modelAttribute="customer" method="post" style="width:350px">
+				<form:hidden path="id"/>
+
 				<div class="form-floating mb-3">
 					<form:input path="firstName" class="form-control" id="firstName" placeholder="firstName"/>
 					<label for="firstName">First Name</label>
