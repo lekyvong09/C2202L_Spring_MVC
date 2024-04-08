@@ -53,5 +53,5 @@
 	
 	<mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources>
 
-
+	<aop:aspectj-autoproxy />
 </beans>

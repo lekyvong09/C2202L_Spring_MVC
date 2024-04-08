@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ray.crm.constant.SortCustomerColumn;
 import com.ray.crm.entity.Customer;
 
 
@@ -25,10 +26,23 @@ public class CustomerDAOImpl implements CustomerDAO{
 
 
 	@Override
-	public List<Customer> getCustomers() {
+	public List<Customer> getCustomers(int theSortField) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query<Customer> theQuery = currentSession.createQuery("from Customer", Customer.class);
+		String sortField = null;
+		
+		switch (theSortField) {
+			case SortCustomerColumn.FIRST_NAME:
+				sortField = "firstName";
+				break;
+			case SortCustomerColumn.EMAIL:
+				sortField = "email";
+				break;
+			default:
+				sortField = "lastName";
+		}
+		
+		Query<Customer> theQuery = currentSession.createQuery("from Customer order by " + sortField, Customer.class);
 		
 		List<Customer> customers = theQuery.getResultList();
 		
@@ -68,6 +82,14 @@ public class CustomerDAOImpl implements CustomerDAO{
 		List<Customer> customers = theQuery.getResultList();
 		
 		return customers;
+	}
+
+
+	@Override
+	public void deleteCustomer(int theId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Customer deletedCustomer = currentSession.get(Customer.class, theId);
+		currentSession.delete(deletedCustomer);
 	}
 
 	

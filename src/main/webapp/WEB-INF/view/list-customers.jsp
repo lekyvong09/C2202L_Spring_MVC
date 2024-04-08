@@ -1,3 +1,5 @@
+<%@ page import="com.ray.crm.constant.SortCustomerColumn" %>
+
 <%@include file="header.jsp" %>
 
 	<title>List customer</title>
@@ -22,17 +24,27 @@
 			</form>
 		</div>
 		
-		
+		<!-- TODO: delete customer, then CUstomer sorting -->
 		
 		<hr class="mx-auto" style="width:50%;"/>
 		
 		<div class="table-responsive py-3">
 			<table class="table table-striped">
 				<thead>
+					<c:url var="sortLinkFirstName" value="/customer/list">
+						<c:param name="sort" value="<%=String.valueOf(SortCustomerColumn.FIRST_NAME) %>" />
+					</c:url>
+					<c:url var="sortLinkLastName" value="/customer/list">
+						<c:param name="sort" value="<%=String.valueOf(SortCustomerColumn.LAST_NAME) %>" />
+					</c:url>
+					<c:url var="sortLinkEmail" value="/customer/list">
+						<c:param name="sort" value="<%=String.valueOf(SortCustomerColumn.EMAIL) %>" />
+					</c:url>
+				
 					<tr>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Email</th>
+						<th><a href="${sortLinkFirstName}">First Name</a></th>
+						<th><a href="${sortLinkLastName}">Last Name</a></th>
+						<th><a href="${sortLinkEmail}">Email</a></th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -43,6 +55,9 @@
 						<c:url value="/customer/load" var="updateLink">
 							<c:param name="customerId" value="${customer.id}"/>
 						</c:url>
+						<c:url value="/customer/delete" var="deleteLink">
+							<c:param name="customerId" value="${customer.id}"/>
+						</c:url>
 						
 						<tr>
 							<td>${customer.firstName}</td>
@@ -50,6 +65,10 @@
 							<td>${customer.email}</td>
 							<td>
 								<a href="${updateLink}">Update</a>
+								 | 
+							 	<a href="${deleteLink}"
+							 		onclick="if (!confirm('Are you sure you want to delete?')) return false;"
+						 		>Delete</a>
 							</td>
 						</tr>
 					</c:forEach>

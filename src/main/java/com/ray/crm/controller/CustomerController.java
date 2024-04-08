@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ray.crm.constant.SortCustomerColumn;
 import com.ray.crm.dao.CustomerDAO;
 import com.ray.crm.entity.Customer;
 import com.ray.crm.service.CustomerService;
@@ -27,8 +28,15 @@ public class CustomerController {
 	}
 
 	@GetMapping("/list")
-	public String listCustomers(Model theModel) {
-		List<Customer> theCustomers = customerService.getCustomers();
+	public String listCustomers(Model theModel, @RequestParam(required = false) String sort) {
+		List<Customer> theCustomers = null;
+		
+		if (sort != null) {
+			int theSortField = Integer.parseInt(sort);
+			theCustomers = customerService.getCustomers(theSortField);
+		} else {
+			theCustomers = customerService.getCustomers(SortCustomerColumn.LAST_NAME);
+		}
 		
 		theModel.addAttribute("customers", theCustomers);
 		
@@ -64,5 +72,11 @@ public class CustomerController {
 		List<Customer> theCustomers = customerService.searchCustomers(theSearchName);
 		theModel.addAttribute("customers", theCustomers);
 		return "list-customers";
+	}
+	
+	@GetMapping("/delete")
+	public String deleteCustomer(@RequestParam("customerId") int theId) {
+		customerService.deleteCustomer(theId);
+		return "redirect:/customer/list";
 	}
 }
