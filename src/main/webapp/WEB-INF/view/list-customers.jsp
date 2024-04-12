@@ -1,4 +1,5 @@
 <%@ page import="com.ray.crm.constant.SortCustomerColumn" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@include file="header.jsp" %>
 
@@ -6,7 +7,19 @@
 </head>
 <body>
 	<div class="container py-3">
+		<div class="d-flex align-items-end flex-column" style="height:70px;">
+			<form:form method="post" action="${pageContext.request.contextPath}/logout">
+				<input type="submit" class="btn btn-success" value="Logout"/>
+			</form:form>
+		</div>
+		
 		<h1 class="text-center mb-4">Customer Relationship Manager</h1>
+		<div class="d-flex justify-content-center pt-3">
+			<h2>Welcome to CRM - <sec:authentication property="principal.username"/></h2>
+		</div>
+		<div class="d-flex justify-content-center pt-3">
+			<h5>You have roles: <sec:authentication property="principal.authorities"/></h5>
+		</div>
 		
 		<div class="d-flex justify-content-between align-items-center py-5">
 			<input class="btn btn-primary" type="button" value="Add customer" style="width:30%;"
@@ -45,7 +58,9 @@
 						<th><a href="${sortLinkFirstName}">First Name</a></th>
 						<th><a href="${sortLinkLastName}">Last Name</a></th>
 						<th><a href="${sortLinkEmail}">Email</a></th>
-						<th>Action</th>
+						<sec:authorize access="hasRole('MANAGER')">
+							<th>Action</th>
+						</sec:authorize>
 					</tr>
 				</thead>
 				
@@ -63,13 +78,15 @@
 							<td>${customer.firstName}</td>
 							<td>${customer.lastName}</td>
 							<td>${customer.email}</td>
-							<td>
-								<a href="${updateLink}">Update</a>
-								 | 
-							 	<a href="${deleteLink}"
-							 		onclick="if (!confirm('Are you sure you want to delete?')) return false;"
-						 		>Delete</a>
-							</td>
+							<sec:authorize access="hasRole('MANAGER')">
+								<td>
+									<a href="${updateLink}">Update</a>
+									 | 
+								 	<a href="${deleteLink}"
+								 		onclick="if (!confirm('Are you sure you want to delete?')) return false;"
+							 		>Delete</a>
+								</td>
+							</sec:authorize>
 						</tr>
 					</c:forEach>
 				</tbody>

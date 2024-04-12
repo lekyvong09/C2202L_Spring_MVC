@@ -8,3 +8,4 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />" />
+	<script src="https://kit.fontawesome.com/1fd945fa10.js" crossorigin="anonymous"></script>

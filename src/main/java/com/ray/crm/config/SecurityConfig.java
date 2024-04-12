@@ -16,7 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		User.UserBuilder users = User.withDefaultPasswordEncoder();
-		auth.inMemoryAuthentication().withUser(users.username("admin").password("password").roles("MANAGERS"));
+		auth.inMemoryAuthentication().withUser(users.username("admin").password("password").roles("MANAGER","EMPLOYEE"));
 		auth.inMemoryAuthentication().withUser(users.username("user").password("password").roles("EMPLOYEE"));
 	}
 
@@ -26,12 +26,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity
 			.authorizeRequests()
 				.antMatchers("/resources/**").permitAll()
+				.antMatchers("/admin/**").hasRole("MANAGER")
 				.anyRequest().authenticated()
 			.and()
 			.formLogin()
 				.loginPage("/showLoginPage")
 				.loginProcessingUrl("/login")
-				.permitAll();
+				.permitAll()
+			.and()
+			.logout()
+				.permitAll()
+			.and()
+				.exceptionHandling().accessDeniedPage("/unauthorized");
 	}
 
 }
