@@ -37,7 +37,7 @@
 				
 				<div class="card-footer">
 					<div class="d-flex justify-content-center links">
-						Don't have an account?<a href="#">Sign up</a>
+						Don't have an account?<a href="${pageContext.request.contextPath}/register/showRegistrationForm">Sign up</a>
 					</div>
 					<div class="d-flex justify-content-center">
 						<a href="#">Forgot your password</a>

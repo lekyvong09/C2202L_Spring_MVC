@@ -8,28 +8,31 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.ray.crm.entity.User;
-
+import com.ray.crm.entity.Role;
 
 @Repository
 @Transactional
-public class UserDAOImpl implements UserDAO {
-	private final SessionFactory sessionFactory;
+public class RoleDAOImpl implements RoleDAO {
+
+	private SessionFactory sessionFactory;
+	
 	
 	@Autowired
-	public UserDAOImpl(SessionFactory sessionFactory) {
+	public RoleDAOImpl(SessionFactory sessionFactory) {
+		super();
 		this.sessionFactory = sessionFactory;
 	}
 
 
+
 	@Override
-	public User findByUserName(String username) {
+	public Role findRoleByName(String roleName) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query<User> theQuery = currentSession.createQuery("from User where username=:uName", User.class);
-		theQuery.setParameter("uName", username);
+		Query<Role> theQuery = currentSession.createQuery("from Role where name=:roleName", Role.class);
+		theQuery.setParameter("roleName", roleName);
 		
-		User result = null;
+		Role result = null;
 		try {
 			result = theQuery.getSingleResult();
 		} catch (Exception e) {
@@ -40,11 +43,5 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 
-
-	@Override
-	public Object save(User user) {
-		Session currentSession = sessionFactory.getCurrentSession();
-		return currentSession.save(user);
-	}
-
+	
 }

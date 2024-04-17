@@ -34,7 +34,7 @@ public class User {
 	private String email;
 	
 	@Column(name="enabled")
-	private String enabled;
+	private boolean enabled;
 	
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -48,10 +48,21 @@ public class User {
 	}
 
 
-	public User(String username, String password, String email, String enabled) {
+	public User(String username, String password, String email, boolean enabled) {
+		super();
 		this.username = username;
 		this.password = password;
 		this.email = email;
+		this.enabled = enabled;
+	}
+
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+
+	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 
@@ -95,15 +106,6 @@ public class User {
 		this.email = email;
 	}
 
-
-	public String getEnabled() {
-		return enabled;
-	}
-
-
-	public void setEnabled(String enabled) {
-		this.enabled = enabled;
-	}
 
 
 	public Set<Role> getRoles() {
