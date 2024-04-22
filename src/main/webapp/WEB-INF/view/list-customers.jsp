@@ -58,6 +58,7 @@
 						<th><a href="${sortLinkFirstName}">First Name</a></th>
 						<th><a href="${sortLinkLastName}">Last Name</a></th>
 						<th><a href="${sortLinkEmail}">Email</a></th>
+						<th>Image</th>
 						<sec:authorize access="hasRole('MANAGER')">
 							<th>Action</th>
 						</sec:authorize>
@@ -78,6 +79,10 @@
 							<td>${customer.firstName}</td>
 							<td>${customer.lastName}</td>
 							<td>${customer.email}</td>
+							<td>
+								<img src="${pageContext.request.contextPath}/images/customer/${customer.id}"
+									alt="temp" style="height:6rem; width: 4rem; object-fit:cover;">
+							</td>
 							<sec:authorize access="hasRole('MANAGER')">
 								<td>
 									<a href="${updateLink}">Update</a>

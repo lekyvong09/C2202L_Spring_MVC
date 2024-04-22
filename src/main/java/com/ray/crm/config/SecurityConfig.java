@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 
 
@@ -37,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/resources/**").permitAll()
 				.antMatchers("/register/**").permitAll()
+				.antMatchers("/images/**").permitAll()
 				.antMatchers("/admin/**").hasRole("MANAGER")
 				.anyRequest().authenticated()
 			.and()
@@ -56,5 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder;
+	}
+	
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		return multipartResolver;
 	}
 }

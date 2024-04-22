@@ -7,7 +7,7 @@ import com.ray.crm.entity.Customer;
 public interface CustomerService {
 	List<Customer> getCustomers(int theSortField);
 	
-	void saveCustomer(Customer theCustomer);
+	int saveCustomer(Customer theCustomer);
 	
 	Customer getCustomer(int theId);
 	
